@@ -2,7 +2,7 @@
 Simple React Slider With Static Images
 
 ## Node Modules
-Upon cloning project, Run `npm install` to install all neccessary dependencies in order to get the slider up and running.
+Upon cloning project, Run `npm ci` to install all neccessary dependencies in order to get the slider up and running.
 
 ## Webpack Setup 
 The project was created from scratch using **webpack** , **react** , **react-dom**, **babel** dependencies which can be explicitly seen in `package.json` file.
