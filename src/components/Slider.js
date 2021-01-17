@@ -83,7 +83,11 @@ const Slider = ({ data }) => {
       </>
     );
   } else {
-    return <h1>Looks like keyword is wrong</h1>;
+    return (
+      <div ref={sliderNode} className="slider">
+        <h1>Looks like keyword is wrong</h1>
+      </div>
+    );
   }
 };
 
