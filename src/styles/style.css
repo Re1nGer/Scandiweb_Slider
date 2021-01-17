@@ -1,0 +1,98 @@
+:root {
+  --n: 20;
+  --tx: 0;
+  --i: 0;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  background-color: #1f1b1b;
+}
+.slider {
+  height: 90vh;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  align-items: center;
+  width: calc(var(--n) * 100%);
+  transform: translate(calc(var(--i, 0) / var(--n) * -100% + var(--tx, 0px)));
+}
+
+.slide {
+  display: flex;
+  width: 100%;
+}
+
+.smooth {
+  transition: transform 0.5s ease-out;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.searchWrapper {
+  display: flex;
+}
+
+.searchWrapper input {
+  border-radius: 1.5rem;
+  border: none;
+  background-color: #2b2d2e;
+  outline: none;
+  color: #bbb;
+  padding: 0.5rem;
+}
+.searchWrapper input::placeholder {
+  padding: 0.5rem;
+}
+
+.searchWrapper button {
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  position: absolute;
+  background-color: #2b2d2e;
+  right: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.searchWrapper button :hover {
+  transition: all 1s ease-out;
+  color: aquamarine;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.loading:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: loader-dual-ring 1.2s linear infinite;
+}
+@keyframes loader-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
