@@ -9,9 +9,10 @@ const Slider = ({ data }) => {
   const xDifference = useRef();
   const locked = useRef(false);
   const xPoint = useRef();
-  const currentImage = useRef(0);
+  const currentSlide = useRef(0);
 
   useEffect(() => {
+    sliderNode.current.style.setProperty("--amountOfSlides", numberOfImages);
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -38,7 +39,7 @@ const Slider = ({ data }) => {
   const handleMove = (event) => {
     if (locked.current) {
       sliderNode.current.style.setProperty(
-        "--tx",
+        "--pixelsDragged",
         `${Math.round(unify(event).clientX - xPoint.current)}px`
       );
     }
@@ -49,13 +50,16 @@ const Slider = ({ data }) => {
       xDifference.current = unify(event).clientX - xPoint.current;
       let sign = Math.sign(xDifference.current);
       if (
-        (currentImage.current > 0 || sign < 0) &&
-        (currentImage.current < numberOfImages - 1 || sign > 0)
+        (currentSlide.current > 0 || sign < 0) &&
+        (currentSlide.current < numberOfImages - 1 || sign > 0)
       ) {
-        currentImage.current -= sign;
-        sliderNode.current.style.setProperty("--i", currentImage.current);
+        currentSlide.current -= sign;
+        sliderNode.current.style.setProperty(
+          "--currentSlide",
+          currentSlide.current
+        );
       }
-      sliderNode.current.style.setProperty("--tx", "0px");
+      sliderNode.current.style.setProperty("--pixelsDragged", "0px");
       sliderNode.current.classList.add("smooth");
       xPoint.current = null;
       locked.current = false;

@@ -1,7 +1,6 @@
 :root {
-  --n: 20;
-  --tx: 0;
-  --i: 0;
+  --pixelsDragged: 0;
+  --currentSlide: 0;
 }
 
 body,
@@ -19,8 +18,13 @@ html {
   overflow-x: hidden;
   overflow-y: hidden;
   align-items: center;
-  width: calc(var(--n) * 100%);
-  transform: translate(calc(var(--i, 0) / var(--n) * -100% + var(--tx, 0px)));
+  width: calc(var(--amountOfSlides, 1) * 100%);
+  transform: translate(
+    calc(
+      var(--currentSlide, 0) / var(--amountOfSlides) * -100% +
+        var(--pixelsDragged, 0px)
+    )
+  );
 }
 
 .slide {
