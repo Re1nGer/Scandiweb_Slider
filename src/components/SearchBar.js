@@ -1,10 +1,6 @@
 import React from "react";
 
-const SearchBar = ({ handleChange, handleClick, handleKeyPressed }) => {
-  const change = (event) => {
-    handleChange(event);
-  };
-
+const SearchBar = ({ handleClick, handleKeyPressed }) => {
   const click = () => {
     handleClick();
   };
@@ -15,12 +11,7 @@ const SearchBar = ({ handleChange, handleClick, handleKeyPressed }) => {
   return (
     <>
       <div className="searchWrapper">
-        <input
-          type="text"
-          placeholder="Search"
-          onChange={change}
-          onKeyPress={keyPressed}
-        />
+        <input type="text" placeholder="Search" onKeyPress={keyPressed} />
         <button onClick={click} />
       </div>
     </>

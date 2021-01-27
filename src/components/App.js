@@ -30,12 +30,9 @@ const App = () => {
     fetchPic();
   }, [url]);
 
-  const handleChange = (event) => {
-    setQuery(event.target.value);
-  };
-
   const handleKeyPressed = (event) => {
     if (event.key === "Enter") {
+      setQuery(event.target.value);
       setUrl(api);
     }
   };
@@ -44,11 +41,7 @@ const App = () => {
     <>
       {isLoading ? <LoadingComponent /> : <Slider data={content} />}
 
-      <SearchBar
-        handleChange={handleChange}
-        handleClick={onClick}
-        handleKeyPressed={handleKeyPressed}
-      />
+      <SearchBar handleClick={onClick} handleKeyPressed={handleKeyPressed} />
     </>
   );
 };
