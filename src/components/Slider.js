@@ -49,9 +49,15 @@ const Slider = ({ data }) => {
     if (locked.current) {
       xDifference.current = unify(event).clientX - xPoint.current;
       let sign = Math.sign(xDifference.current);
+      let windowInnerWidth = window.innerWidth;
+      let dragThreshold = +(
+        (sign * xDifference.current) /
+        windowInnerWidth
+      ).toFixed(2);
       if (
         (currentSlide.current > 0 || sign < 0) &&
-        (currentSlide.current < numberOfImages - 1 || sign > 0)
+        (currentSlide.current < numberOfImages - 1 || sign > 0) &&
+        dragThreshold > 0.1
       ) {
         currentSlide.current -= sign;
         sliderNode.current.style.setProperty(
