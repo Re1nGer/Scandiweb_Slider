@@ -1,34 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect, Children } from "react";
 import "../styles/style.css";
 
-const Slider = ({ data }) => {
-  const [numberOfImages, setNumberOfImages] = useState(data.length);
-
+const Slider = ({ children, data }) => {
+  const numberOfImages = data.length + children.length;
   const sliderNode = useRef();
 
-  const xDifference = useRef();
-  const locked = useRef(false);
-  const xPoint = useRef();
-  const currentSlide = useRef(0);
+  let xDifference;
+  let locked = false;
+  let xPoint = null;
+  let slideCurrent = 0;
 
   useEffect(() => {
     sliderNode.current.style.setProperty("--amountOfSlides", numberOfImages);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    console.log(fetchedPictures);
+    sliderNode.current.addEventListener("mousedown", handleMouseDown);
+    sliderNode.current.addEventListener("mousemove", handleMove);
+    sliderNode.current.addEventListener("mouseup", handleMouseUp);
 
-    window.addEventListener("touchstart", handleMouseDown);
-    window.addEventListener("touchmove", handleMove);
-    window.addEventListener("touchend", handleMouseUp);
+    sliderNode.current.addEventListener("touchstart", handleMouseDown);
+    sliderNode.current.addEventListener("touchmove", handleMove);
+    sliderNode.current.addEventListener("touchend", handleMouseUp);
 
     return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mousedown", handleMouseDown);
+      sliderNode.current.removeEventListener("mouseup", handleMouseUp);
+      sliderNode.current.removeEventListener("mousemove", handleMove);
+      sliderNode.current.removeEventListener("mousedown", handleMouseDown);
 
-      window.removeEventListener("touchstart", handleMouseDown);
-      window.removeEventListener("touchmove", handleMove);
-      window.removeEventListener("touchend", handleMouseUp);
+      sliderNode.current.removeEventListener("touchstart", handleMouseDown);
+      sliderNode.current.removeEventListener("touchmove", handleMove);
+      sliderNode.current.removeEventListener("touchend", handleMouseUp);
     };
   }, []);
 
@@ -36,69 +36,67 @@ const Slider = ({ data }) => {
     return event.changedTouches ? event.changedTouches[0] : event;
   };
 
+  const handleMouseDown = (event) => {
+    xPoint = unify(event).clientX;
+    locked = true;
+    sliderNode.current.classList.remove("smooth");
+  };
+
   const handleMove = (event) => {
-    if (locked.current) {
+    if (locked) {
       sliderNode.current.style.setProperty(
         "--pixelsDragged",
-        `${Math.round(unify(event).clientX - xPoint.current)}px`
+        `${Math.round(unify(event).clientX - xPoint)}px`
       );
     }
   };
 
   const handleMouseUp = (event) => {
-    if (locked.current) {
-      xDifference.current = unify(event).clientX - xPoint.current;
-      let sign = Math.sign(xDifference.current);
+    if (locked) {
+      xDifference = unify(event).clientX - xPoint;
+      let sign = Math.sign(xDifference);
       let windowInnerWidth = window.innerWidth;
-      let dragThreshold = +(
-        (sign * xDifference.current) /
-        windowInnerWidth
-      ).toFixed(2);
+      let dragThreshold = +((sign * xDifference) / windowInnerWidth).toFixed(2);
       if (
-        (currentSlide.current > 0 || sign < 0) &&
-        (currentSlide.current < numberOfImages - 1 || sign > 0) &&
+        (slideCurrent > 0 || sign < 0) &&
+        (slideCurrent < numberOfImages - 1 || sign > 0) &&
         dragThreshold > 0.1
       ) {
-        currentSlide.current -= sign;
-        sliderNode.current.style.setProperty(
-          "--currentSlide",
-          currentSlide.current
-        );
+        slideCurrent -= sign;
+        sliderNode.current.style.setProperty("--slideCurrent", slideCurrent);
       }
       sliderNode.current.style.setProperty("--pixelsDragged", "0px");
       sliderNode.current.classList.add("smooth");
-      xPoint.current = null;
-      locked.current = false;
+      xPoint = null;
+      locked = false;
     }
   };
 
-  const handleMouseDown = (event) => {
-    xPoint.current = unify(event).clientX;
-    locked.current = true;
-    sliderNode.current.classList.remove("smooth");
-  };
-
-  if (numberOfImages !== 0) {
+  const childData = children.map((child, index) => {
     return (
-      <>
-        <div ref={sliderNode} className="slider smooth">
-          {data.map((url, idx) => (
-            <div key={idx} className="slide">
-              <img draggable="false" src={url.largeImageURL} />
-            </div>
-          ))}
-        </div>
-
-        <hr />
-      </>
-    );
-  } else {
-    return (
-      <div ref={sliderNode} className="slider">
-        <h1>Looks like keyword is wrong</h1>
+      <div className="slide" key={index}>
+        {child}
       </div>
     );
-  }
+  });
+
+  const fetchedPictures = data.map((object) => {
+    return (
+      <div key={object.id} className="slide">
+        <img draggable="false" src={object.largeImageURL} />
+      </div>
+    );
+  });
+
+  return (
+    <>
+      <div ref={sliderNode} className="slider smooth">
+        {fetchedPictures}
+        {childData}
+      </div>
+      <div className="horizontal-line" />
+    </>
+  );
 };
 
 export default Slider;

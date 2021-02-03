@@ -1,6 +1,6 @@
 :root {
   --pixelsDragged: 0;
-  --currentSlide: 0;
+  --slideCurrent: 0;
 }
 
 body,
@@ -21,10 +21,17 @@ html {
   width: calc(var(--amountOfSlides, 1) * 100%);
   transform: translate(
     calc(
-      var(--currentSlide, 0) / var(--amountOfSlides) * -100% +
+      var(--slideCurrent, 0) / var(--amountOfSlides) * -100% +
         var(--pixelsDragged, 0px)
     )
   );
+}
+
+.horizontal-line {
+  border: 1px solid #ffffff;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 0;
 }
 
 .slide {

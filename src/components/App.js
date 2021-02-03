@@ -39,7 +39,24 @@ const App = () => {
   return (
     // Here, I pass in data as was shown in one of your emails
     <>
-      {isLoading ? <LoadingComponent /> : <Slider data={content} />}
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <Slider data={content}>
+          <div>
+            <p>Any Html content being passed</p>
+          </div>
+          <div>
+            <h1>Content</h1>
+          </div>
+          <div>
+            <h1>Some Content</h1>
+          </div>
+          <div>
+            <h1>Random Content</h1>
+          </div>
+        </Slider>
+      )}
 
       <SearchBar handleClick={onClick} handleKeyPressed={handleKeyPressed} />
     </>
