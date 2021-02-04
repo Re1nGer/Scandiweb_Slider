@@ -12,7 +12,7 @@ const Slider = ({ children, data }) => {
 
   useEffect(() => {
     sliderNode.current.style.setProperty("--amountOfSlides", numberOfImages);
-    console.log(fetchedPictures);
+
     sliderNode.current.addEventListener("mousedown", handleMouseDown);
     sliderNode.current.addEventListener("mousemove", handleMove);
     sliderNode.current.addEventListener("mouseup", handleMouseUp);
