@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Children } from "react";
+import React, { useRef, useEffect } from "react";
 import "../styles/style.css";
 
 const Slider = ({ children, data }) => {
